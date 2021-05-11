@@ -27,9 +27,38 @@ def select_image():
 
 
 def save_image():
-    root.filename = filedialog.asksaveasfilename(initialdir="/", title="Select file",
+    root.newfile = filedialog.asksaveasfilename(initialdir="/", title="Select file",
                                                  filetypes=(("jpeg files", "*.jpg"), ("all files", "*.*")))
-    print(root.filename)
+    print(root.newfile)
+
+
+def show_exif():
+    root.filename = filedialog.askopenfilename(initialdir="/", title="Select file",
+                                               filetypes=(("jpeg files", "*.jpg"), ("all files", "*.*")))
+    im = Image.open(root.filename)
+    exif_dict = piexif.load(im.info["exif"])
+    # process im and exif_dict...
+    # w, h = im.size
+    # exif_dict["0th"][piexif.ImageIFD.XResolution] = (w, 1)
+    # exif_dict["0th"][piexif.ImageIFD.YResolution] = (h, 1)
+    # exif_bytes = piexif.dump(exif_dict)
+    # print(exif_bytes)
+    print(exif_dict)
+    print("printing EXIF's 0th")
+    print(exif_dict['0th'])
+    print("printing EXIF's Exif")
+    print(exif_dict['Exif'])
+    print("printing EXIF's GPS")
+    print(exif_dict['GPS'])
+    print("printing EXIF's Interop")
+    print(exif_dict["Interop"])
+    print("printing EXIF's 1st")
+    print(exif_dict["1st"])
+    print("printing EXIF's Thumbnails")
+    print(exif_dict["thumbnail"])
+
+    # im.save(new_file, "jpeg", exif=exif_bytes)
+
 
 
 # im = Image.open(filename)
@@ -56,5 +85,8 @@ select_image.grid(row=0, column=3, padx=15)
 
 save_image = Button(root, text="Save image", command=save_image)
 save_image.grid(row=0, column=4, padx=15)
+
+show_exif_data = Button(root, text="Show EXIF data", command=show_exif)
+show_exif_data.grid(row=0, column=5, padx=15)
 
 root.mainloop()
