@@ -9,7 +9,10 @@ root.geometry("800x600")
 
 
 def delete_exif():
-    print("Finish it later!")
+    root.initial_photo = filedialog.askopenfilename(initialdir="/", title="Select file",
+                                               filetypes=(("jpeg files", "*.jpg"), ("all files", "*.*")))
+    piexif.remove(root.initial_photo)
+    print("Done")
 
 
 def scramble_exif():
@@ -57,8 +60,6 @@ def show_exif():
     print("printing EXIF's Thumbnails")
     print(exif_dict["thumbnail"])
 
-    # im.save(new_file, "jpeg", exif=exif_bytes)
-
 
 
 # im = Image.open(filename)
@@ -88,5 +89,6 @@ save_image.grid(row=0, column=4, padx=15)
 
 show_exif_data = Button(root, text="Show EXIF data", command=show_exif)
 show_exif_data.grid(row=0, column=5, padx=15)
+
 
 root.mainloop()
